@@ -1,0 +1,11 @@
+*node_modules*
+*dist*
+*.cache*
+*.cache*
+*dist*
+*secrets*
+dump.rdb
+wallet.db
+/test
+
+.env
