@@ -97,6 +97,7 @@ app.get('/api/getnewaddress', (req, res) => {
   wallets.push(newWallet)
   res.json(newWallet.publicKey);
 })
+
 app.get('/api/getblockhash/:id', (req, res) => {
   const { id } = req.params;
 
@@ -135,13 +136,32 @@ app.get('/api/listaddress', (req, res) => {
   res.json(addresses);
 });
 
-app.post('/api/sendtoaddress', (req, res) => {
-  
-})
+app.get('/api/sendtoaddress/:recipient/:amount', (req, res) => {
 
+  const { recipient, amount } = req.params;
 
-app.get('/getTransactionByHash', (req, res) => {
-  res.json(blockchain.chain.length);
+  let transaction = transactionPool
+    .existingTransaction({ inputAddress: wallet.publicKey });
+
+  try {
+    if (transaction) {
+      transaction.update({ senderWallet: wallet, recipient, amount });
+    } else {
+      transaction = wallet.createTransaction({
+        recipient,
+        amount,
+        chain: blockchain.chain
+      });
+    }
+  } catch(error) {
+    return res.status(400).json({ type: 'error', message: error.message });
+  }
+
+  transactionPool.setTransaction(transaction);
+
+  pubsub.broadcastTransaction(transaction);
+
+  res.json({ type: 'success', transaction });
 })
 
 app.get('/api/blocks', (req, res) => {
@@ -167,78 +187,18 @@ app.get('/api/blocks/:id', (req, res) => {
   res.json(blocksReversed.slice(startIndex, endIndex));
 });
 
-app.post('/api/mine', (req, res) => {
-  const { data } = req.body;
-
-  blockchain.addBlock({ data });
-
-  pubsub.broadcastChain();
-
-  res.json(blockchain);
-
-  // res.redirect('/api/blocks');
-});
-
-
-app.post('/api/transact', (req, res) => {
-  console.log(req.body)
-  // const { amount, recipient } = req.body;
-
-  // let transaction = transactionPool
-  //   .existingTransaction({ inputAddress: wallet.publicKey });
-
-  // try {
-  //   if (transaction) {
-  //     transaction.update({ senderWallet: wallet, recipient, amount });
-  //   } else {
-  //     transaction = wallet.createTransaction({
-  //       recipient,
-  //       amount,
-  //       chain: blockchain.chain
-  //     });
-  //   }
-  // } catch(error) {
-  //   return res.status(400).json({ type: 'error', message: error.message });
-  // }
-
-  // transactionPool.setTransaction(transaction);
-
-  // pubsub.broadcastTransaction(transaction);
-
-  // res.json({ type: 'success', transaction });
-});
 
 app.get('/api/transaction-pool-map', (req, res) => {
   res.json(transactionPool.transactionMap);
 });
 
-app.get('/api/mine-transactions', (req, res) => {
-  transactionMiner.mineTransactions();
-
-  res.redirect('/api/blocks');
-});
-
-app.get('/api/wallet-info', (req, res) => {
+app.get('/api/my-wallet', (req, res) => {
   const address = wallet.publicKey;
 
   res.json({
     address,
     balance: Wallet.calculateBalance({ chain: blockchain.chain, address })
   });
-});
-
-app.get('/api/known-addresses', (req, res) => {
-  const addressMap = {};
-
-  for (let block of blockchain.chain) {
-    for (let transaction of block.data) {
-      const recipient = Object.keys(transaction.outputMap);
-
-      recipient.forEach(recipient => addressMap[recipient] = recipient);
-    }
-  }
-
-  res.json(Object.keys(addressMap));
 });
 
 
