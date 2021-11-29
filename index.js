@@ -26,35 +26,39 @@ const blockchain = new Blockchain();
 const transactionPool = new TransactionPool();
 
 var wallets = []
+var wallet;
 //create main wallet
-db.findOne({'main' : 1}, function (err, doc) {
-  if(!doc) {
-    var wallet = new Wallet(alias= "", label= "main");
-    var values = {
-      alias: wallet.alias,
-      label: wallet.label,
-      seeds: wallet.seeds,
-      balance: wallet.balance,
-      keyPair: JSON.stringify(wallet.keyPair),
-      publicKey: wallet.publicKey,
-      main: 1
+const recoveryWallet = () => {
+  db.find({}, function (err, doc) {
+    console.log(`Recovery ${doc.length} wallets`)
+    if (doc.length > 0) {
+
+      doc.forEach(item => {
+        newWallet = new Wallet(alias=item.alias, label=item.label, seeds=item.seeds, privateKey=item.privateKey, publicKey = item.publicKey, balance=item.balance, keyPair=item.keyPair);
+        if (item.label === 'main')
+          wallet = newWallet
+        wallets.push(newWallet)
+      })
+    } else {
+      wallet = new Wallet(alias= "", label= "main")
+      var values = {
+        alias: wallet.alias,
+        label: wallet.label,
+        seeds: wallet.seeds,
+        balance: wallet.balance,
+        keyPair: JSON.stringify(wallet.keyPair),
+        publicKey: wallet.publicKey,
+      }
+      db.insert([values], function(err, newDoc) {
+        console.log(`Insert new ${wallet.publicKey} wallet`)
+      });   
+      wallets.push(wallet)
     }
+  });
+  
+}
 
-    wallets.push(wallet)
-    db.insert([values], function(err, newDoc) {
-      // console.log(newDoc)
-    });
-  } else {
-    var wallet = new Wallet(alias=doc.alias, label=doc.label, seeds=doc.seeds, privateKey= "", publicKey = doc.publicKey, balance=doc.balance, keyPair=doc.keyPair);
-    wallets.push(wallet)
-  }
-});
-
-var wallet = new Wallet()
-
-// var wallet = wallets[0]
-
-console.log(wallets)
+recoveryWallet()
 
 
 // exit()
@@ -63,7 +67,6 @@ const pubsub = new PubSub({ blockchain, transactionPool, redisUrl: REDIS_URL });
 const transactionMiner = new TransactionMiner({ blockchain, transactionPool, wallet, pubsub });
 
 app.use(bodyParser.json());
-app.use(express.static(path.join(__dirname, 'client/dist')));
 
 app.get('/api/getbestblockhash', (req, res) => {
   res.json(blockchain.chain[blockchain.chain.length-1]);
@@ -80,9 +83,20 @@ app.get('/api/getblockcount', (req, res) => {
 
 app.get('/api/getnewaddress', (req, res) => {
   var newWallet = new Wallet();
+  var values = {
+    alias: newWallet.alias,
+    label: newWallet.label,
+    seeds: newWallet.seeds,
+    balance: newWallet.balance,
+    keyPair: JSON.stringify(wallet.keyPair),
+    publicKey: newWallet.publicKey,
+  }
+  db.insert([values], function(err, newDoc) {
+    // console.log(newDoc)
+});
+  wallets.push(newWallet)
   res.json(newWallet.publicKey);
 })
-
 app.get('/api/getblockhash/:id', (req, res) => {
   const { id } = req.params;
 
