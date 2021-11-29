@@ -15,10 +15,14 @@ class PubSub {
     this.transactionPool = transactionPool;
 
     this.publisher = redis.createClient(redisUrl);
-    this.publisher.auth(process.env.REDIS_SECRET_KEY);
     this.subscriber = redis.createClient(redisUrl);
-    this.subscriber.auth(process.env.REDIS_SECRET_KEY);
-    // this.subscriber.auth('af44a39972b2b80bcb203d13e0cb61c3eddecb9a9204f0609441c4ef35c3ced8');
+
+
+    const isDevelopment = process.env.ENV === 'development';
+    if (!isDevelopment) {
+      this.publisher.auth(process.env.REDIS_SECRET_KEY);
+      this.subscriber.auth(process.env.REDIS_SECRET_KEY);
+    }
 
     this.subscribeToChannels();
 
