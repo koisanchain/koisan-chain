@@ -1,4 +1,4 @@
-Bitcoinee
+Koisan Internation Coin
 =====================================
 
 https://koisan-chain.com
