@@ -1,23 +1,20 @@
-### Build a Blockchain and Cryptocurrency | Full-Stack Edition
+Bitcoinee
+=====================================
 
-The official code for the *Build a Blockchain and Cryptocurrency | Full-Stack Edition* course on Udemy by David Katz.
+https://koisan-chain.com
+<br>
+https://explorer.koisan-chain.com
 
-Check out the course: [https://www.udemy.com/build-blockchain-full-stack](https://www.udemy.com/build-blockchain-full-stack)
+What is Koisan International Coin?
+----------------
 
-The blockchain is a revolutionary technology that allows for the secure, distributed, decentralized storage of information. Over the past few years, the blockchain has taken the engineering landscape by storm. Many people in the industry predict that the blockchain will disrupt the ways we interact with technology on the same way the Internet did in the early 2000s.
+Koisan International Coin is one of Asia cryptocurrency developed in Indonesia designed to support nft project in Asia and the world, it also designed for using exactly the way money is supposed to be. Bitcoinee was created to become a digital version of money that people can be use all around the world not only in Asia.
 
-This course is a remastered version of the original *Build a Blockchain and Cryptocurrency from Scratch* course released in early 2018: [https://www.udemy.com/build-blockchain](https://www.udemy.com/build-blockchain).
+For more information read the
+[original whitepaper](https://koisan-chain.com/).
 
-This takes that course's best content, and adds a ton of additional material:
-Some of the main course highlights:
-- Code a full-on backend with test-driven development.
-- Write a full test suite for the backend.
-- Build a Blockchain in the object-oriented programming style.
-- Create a full frontend React.js web application.
-- Deploy the application to production (with multiple servers).
-- Create an API around the Blockchain.
-- Create a real-time connected peer-to-peer server with a pub/sub implementation.
-- Implement a proof-of-work algorithm.
-- Sign Transactions with cryptography and digital signature.
-- Create a Transaction Pool for a real-time list of incoming data.
-- Include transactions in core blocks of the chain.
+License
+-------
+
+Cicoin Core is released under the terms of the MIT license. See [COPYING](COPYING) for more
+information or see https://opensource.org/licenses/MIT.
