@@ -120,7 +120,9 @@ app.get('/api/getrawtransaction/:txid', (req, res) => {
 app.get('/api/getwalletbalance/:address', (req, res) => {
   const { address } = req.params;
 
-  res.json(Wallet.calculateBalance({ chain: blockchain.chain, address }));
+  res.json({
+    'balance': Wallet.calculateBalance({ chain: blockchain.chain, address })
+  });
 })
 
 app.get('/api/validateaddress/:address', (req, res) => {
