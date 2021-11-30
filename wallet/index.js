@@ -9,16 +9,17 @@ class Wallet {
     this.seeds = seeds;
     this.privateKey = privateKey;
 
+    this.keyPair = ec.genKeyPair();
+
     if (publicKey == "") {
 
       this.balance = STARTING_BALANCE;
-      this.keyPair = ec.genKeyPair();
       this.publicKey = this.keyPair.getPublic().encode('hex');
 
     } else {
 
       this.balance = balance;
-      this.keyPair = JSON.parse(keyPair);
+      // this.keyPair = JSON.parse(keyPair);
       this.publicKey = publicKey;
 
     }

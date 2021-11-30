@@ -140,6 +140,8 @@ app.get('/api/sendtoaddress/:recipient/:amount', (req, res) => {
 
   const { recipient, amount } = req.params;
 
+  amount = parseFloat(amount)
+  
   let transaction = transactionPool
     .existingTransaction({ inputAddress: wallet.publicKey });
 
