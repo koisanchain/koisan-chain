@@ -14,7 +14,7 @@ const STARTING_BALANCE = 0;
 
 const REWARD_INPUT = { address: '*authorized-reward*' };
 
-const MINING_REWARD = 0;
+const MINING_REWARD = 240;
 
 module.exports = {
   GENESIS_DATA,

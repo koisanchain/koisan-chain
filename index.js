@@ -59,7 +59,7 @@ const recoveryWallet = () => {
   
 }
 
-recoveryWallet()
+// recoveryWallet()
 
 
 // exit()
@@ -139,7 +139,7 @@ app.get('/api/listaddress', (req, res) => {
 
 app.get('/api/sendtoaddress/:recipient/:amount', (req, res) => {
 
-  const { recipient, amount } = req.params;
+  var { recipient, amount } = req.params;
 
   amount = parseFloat(amount)
   
