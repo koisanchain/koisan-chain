@@ -125,8 +125,15 @@ app.get('/api/getwalletbalance/:address', (req, res) => {
 
 app.get('/api/validateaddress/:address', (req, res) => {
   const { address } = req.params;
+  if (wallets.find(o => o.publicKey === address))
+    var isvalid = 1
+  else
+    var isvalid = 0
 
-  res.json(Wallet.calculateBalance({ chain: blockchain.chain, address }));
+  res.json({
+    'address': address,
+    'isvalid': isvalid
+  });
 })
 
 app.get('/api/listaddress', (req, res) => {
