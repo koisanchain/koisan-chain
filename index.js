@@ -26,7 +26,7 @@ const blockchain = new Blockchain();
 const transactionPool = new TransactionPool();
 
 var wallets = []
-var wallet;
+var wallet = new Wallet(alias= "", label= "main");
 //create main wallet
 const recoveryWallet = () => {
   db.find({}, function (err, doc) {
@@ -35,25 +35,26 @@ const recoveryWallet = () => {
 
       doc.forEach(item => {
         newWallet = new Wallet(alias=item.alias, label=item.label, seeds=item.seeds, privateKey=item.privateKey, publicKey = item.publicKey, balance=item.balance, keyPair=item.keyPair);
-        if (item.label === 'main')
-          wallet = newWallet
+        // if (item.label === 'main')
+        //   wallet = newWallet
         wallets.push(newWallet)
       })
-    } else {
-      wallet = new Wallet(alias= "", label= "main")
-      var values = {
-        alias: wallet.alias,
-        label: wallet.label,
-        seeds: wallet.seeds,
-        balance: wallet.balance,
-        keyPair: JSON.stringify(wallet.keyPair),
-        publicKey: wallet.publicKey,
-      }
-      db.insert([values], function(err, newDoc) {
-        console.log(`Insert new ${wallet.publicKey} wallet`)
-      });   
-      wallets.push(wallet)
-    }
+    } 
+    // else {
+    //   wallet = new Wallet(alias= "", label= "main")
+    //   var values = {
+    //     alias: wallet.alias,
+    //     label: wallet.label,
+    //     seeds: wallet.seeds,
+    //     balance: wallet.balance,
+    //     keyPair: JSON.stringify(wallet.keyPair),
+    //     publicKey: wallet.publicKey,
+    //   }
+    //   db.insert([values], function(err, newDoc) {
+    //     console.log(`Insert new ${wallet.publicKey} wallet`)
+    //   });   
+    //   wallets.push(wallet)
+    // }
   });
   
 }
