@@ -146,6 +146,45 @@ app.get('/api/listaddress', (req, res) => {
   res.json(addresses);
 });
 
+app.get('/api/sendfrom/:sender/:recipient/:amount', (req, res) => {
+
+  var { sender, recipient, amount } = req.params;
+
+  var senderWallet = wallets.find(o => o.publicKey === sender)
+
+  if (senderWallet) {
+    amount = parseFloat(amount)
+  
+    let transaction = transactionPool
+      .existingTransaction({ inputAddress: senderWallet.publicKey });
+  
+    try {
+      if (transaction) {
+        transaction.update({ senderWallet: senderWallet, recipient, amount });
+      } else {
+        transaction = senderWallet.createTransaction({
+          recipient,
+          amount,
+          chain: blockchain.chain
+        });
+      }
+    } catch(error) {
+      return res.status(400).json({ type: 'error', message: error.message });
+    }
+  
+    transactionPool.setTransaction(transaction);
+  
+    pubsub.broadcastTransaction(transaction);
+  
+    res.json({ type: 'success', transaction });
+  } else {
+
+    res.json({ type: 'error', message: 'invalid sender address' });
+  }
+
+  
+})
+
 app.get('/api/sendtoaddress/:recipient/:amount', (req, res) => {
 
   var { recipient, amount } = req.params;
