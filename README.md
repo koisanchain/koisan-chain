@@ -17,7 +17,8 @@ For more information read the
 
 We recommend to use nodejs V16.x.x
 
-<code>sudo apt update<br>sudo apt install nodejs</code>
+<code>sudo apt update</code>\
+<code>sudo apt install nodejs</code>
 
 #### Install Redis Server
 
@@ -38,7 +39,10 @@ Then, restart the Redis service to reflect the changes you made to the configura
 <code>sudo systemctl restart redis.service</code>
 
 #### Clone this git
-<code>git clone https://github.com/koisanchain/koisan-chain.git <br> cd koisan-chain <br>npm i -f</code>
+<code>git clone https://github.com/koisanchain/koisan-chain.git </code>\
+<code>cd koisan-chain</code>\
+<code>npm i -f</code>
+
 
 
 #### Testing KoisanChain
