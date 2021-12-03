@@ -19,7 +19,8 @@ const REDIS_URL = isDevelopment ?
   'redis://127.0.0.1:6379' :
   process.env.MASTER_NODE;
 const DEFAULT_PORT = 3000;
-const ROOT_NODE_ADDRESS = `http://localhost:${DEFAULT_PORT}`;
+const ROOT_NODE_ADDRESS = process.env.ROOT_NODE_ADDRESS;
+
 
 const app = express();
 const blockchain = new Blockchain();
@@ -273,7 +274,7 @@ const syncWithRootState = () => {
   });
 };
 
-// syncWithRootState();
+syncWithRootState();
 
 let PEER_PORT;
 

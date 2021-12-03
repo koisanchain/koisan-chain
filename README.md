@@ -1,17 +1,16 @@
-Koisan Internation Coin
+Koisan International Coin
 =====================================
 
-https://koisan-chain.com
-<br>
-https://explorer.koisan-chain.com
-
+http://koisan-chain.com
 What is Koisan International Coin?
 ----------------
 
-Koisan International Coin is one of Asia cryptocurrency developed in Indonesia designed to support nft project in Asia and the world, it also designed for using exactly the way money is supposed to be. Bitcoinee was created to become a digital version of money that people can be use all around the world not only in Asia.
+Koisan International Coin is one of Asia cryptocurrency developed in Indonesia designed to support nft project in Asia and the world, it also designed for using exactly the way money is supposed to be. Koisan International Coin was created to become a digital version of money that people can be use all around the world not only in Asia.
 
 For more information read the
-[original whitepaper](https://koisan-chain.com/).
+[original whitepaper](http://koisan-chain.com/).
+
+Installation instructions 
 
 License
 -------
